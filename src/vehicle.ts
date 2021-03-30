@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import { VehicleEntity } from './vehicle.entity';
 
 export const Vehicle = t.intersection([
   t.strict({
@@ -25,3 +26,24 @@ export const VehicleRegistered = t.intersection([
 ]);
 
 export type VehicleRegistered = t.TypeOf<typeof VehicleRegistered>;
+
+export const encodeToEntity: t.Encode<Vehicle, VehicleEntity> = (v) => {
+  const ve = new VehicleEntity();
+  ve.modelName = v.modelName;
+  ve.plate = v.plate;
+
+  switch (v.type) {
+    case 'car': {
+      ve.type = 'car';
+      ve.seats = v.seats;
+      break;
+    }
+    case 'moto': {
+      ve.type = 'moto';
+      ve.engineCapacity = v.engineCapacity;
+      break;
+    }
+  }
+
+  return ve;
+};

@@ -10,7 +10,8 @@ CREATE TABLE `vehicles` (
   `type` varchar(20) NOT NULL,
   `engineCapacity` int(11) DEFAULT NULL,
   `seats` int(11) default null,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  unique(`plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 insert into `vehicles` (`plate`, `modelName`, `type`, `engineCapacity`, `seats`) 

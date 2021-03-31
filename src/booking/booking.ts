@@ -8,3 +8,11 @@ export const BookingRegistered = t.strict({
 });
 
 export type BookingRegistered = t.TypeOf<typeof BookingRegistered>;
+
+export const BookingCreation = t.strict({
+  from: ty.DateFromISOString,
+  to: ty.DateFromISOString,
+  vehicleId: t.number
+});
+
+export type BookingCreation = t.TypeOf<typeof BookingCreation>;

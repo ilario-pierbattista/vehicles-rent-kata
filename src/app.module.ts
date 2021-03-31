@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BookingEntity } from './booking/booking.entity';
+import { BookingsController } from './booking/bookings.controller';
 import { VehicleEntity } from './vehicle/vehicle.entity';
 import { VehiclesController } from './vehicle/vehicles.controller';
 
@@ -26,7 +27,7 @@ export class AppModule {}
     }),
     TypeOrmModule.forFeature([VehicleEntity, BookingEntity])
   ],
-  controllers: [VehiclesController],
+  controllers: [VehiclesController, BookingsController],
   providers: []
 })
 export class ApiModule {}

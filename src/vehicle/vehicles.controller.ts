@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Response, Request } from 'express';
 import * as A from 'fp-ts/Array';
 import * as E from 'fp-ts/Either';
-import * as RTE from 'fp-ts/ReaderTaskEither';
 import * as T from 'fp-ts/Task';
 import * as TE from 'fp-ts/TaskEither';
 import { flow, pipe } from 'fp-ts/function';
@@ -54,11 +53,9 @@ export class VehiclesController {
     @Param() id: number,
     @Res() response: Response
   ): Promise<Response> {
-    const query: RTE.ReaderTaskEither<number, ErrorResponse, VehicleEntity> = (
-      vehicleId
-    ) => () =>
+    const query: TE.TaskEither<ErrorResponse, VehicleEntity> = () =>
         this.vehiclesRepository
-          .findOne(vehicleId, { relations: ['bookings'] })
+          .findOne(id, { relations: ['bookings'] })
           .then((v) =>
             v instanceof VehicleEntity ? E.right(v) : E.left(makeErrorResponse(404)('not-found'))
           )
@@ -66,13 +63,12 @@ export class VehiclesController {
 
     return pipe(
       query,
-      RTE.chainEitherKW((v) =>
+      TE.chainEitherKW((v) =>
         pipe(
           VehicleRegistered.decode(v),
           E.mapLeft((e) => makeErrorResponse(400)(PathReporter.report(E.left(e))))
         )
       ),
-      (q) => q(id),
       TE.fold(
         applyToExpressResponse(response),
         (vs) => {

@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { BookingRegistered } from 'src/booking/booking';
+import { BookingRegistered } from '../booking/booking';
 import { VehicleEntity } from './vehicle.entity';
 
 export const Vehicle = t.intersection([

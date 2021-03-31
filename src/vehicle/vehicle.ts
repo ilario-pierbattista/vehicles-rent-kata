@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import { BookingRegistered } from 'src/booking/booking';
 import { VehicleEntity } from './vehicle.entity';
 
 export const Vehicle = t.intersection([
@@ -21,7 +22,10 @@ export const Vehicle = t.intersection([
 export type Vehicle = t.TypeOf<typeof Vehicle>;
 
 export const VehicleRegistered = t.intersection([
-  t.strict({ id: t.number }),
+  t.strict({
+    id: t.number,
+    bookings: t.array(BookingRegistered)
+  }),
   Vehicle
 ]);
 

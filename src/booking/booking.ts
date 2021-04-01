@@ -1,13 +1,13 @@
 import * as t from 'io-ts';
 import * as ty from 'io-ts-types';
 
-export const BookingRegistered = t.strict({
+export const BookingRegisteredSchema = t.strict({
   id: t.number,
   from: ty.date,
   to: ty.date
 });
 
-export type BookingRegistered = t.TypeOf<typeof BookingRegistered>;
+export type BookingRegistered = t.TypeOf<typeof BookingRegisteredSchema>;
 
 export const BookingCreation = t.strict({
   from: ty.DateFromISOString,

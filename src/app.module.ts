@@ -3,8 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BookingEntity } from './booking/booking.entity';
+import { BookingRepository } from './booking/booking.repository';
 import { BookingsController } from './booking/bookings.controller';
+import { VehiclesClassValidatorController } from './vehicle-class-validator/vehicles.controller';
 import { VehicleEntity } from './vehicle/vehicle.entity';
+import { VehicleRepository } from './vehicle/vehicle.repository';
 import { VehiclesController } from './vehicle/vehicles.controller';
 
 @Module({
@@ -27,7 +30,11 @@ export class AppModule {}
     }),
     TypeOrmModule.forFeature([VehicleEntity, BookingEntity])
   ],
-  controllers: [VehiclesController, BookingsController],
-  providers: []
+  controllers: [
+    VehiclesController,
+    VehiclesClassValidatorController,
+    BookingsController
+  ],
+  providers: [BookingRepository, VehicleRepository]
 })
 export class ApiModule {}

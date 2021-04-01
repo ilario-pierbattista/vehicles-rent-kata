@@ -1,37 +1,38 @@
 import * as t from 'io-ts';
-import { BookingRegistered } from '../booking/booking';
+import { BookingRegisteredSchema } from '../booking/booking';
+import { VehicleEnum } from '../common/vehicle';
 import { VehicleEntity } from './vehicle.entity';
 
-export const Vehicle = t.intersection([
+export const VehicleSchema = t.intersection([
   t.strict({
     plate: t.string,
     modelName: t.string
   }),
   t.union([
     t.strict({
-      type: t.literal('moto'),
+      type: t.literal(VehicleEnum.moto.value),
       engineCapacity: t.number
     }),
     t.strict({
-      type: t.literal('car'),
+      type: t.literal(VehicleEnum.car.value),
       seats: t.number
     })
   ])
 ]);
 
-export type Vehicle = t.TypeOf<typeof Vehicle>;
+export type Vehicle = t.TypeOf<typeof VehicleSchema>;
 
 export const VehicleRegistered = t.intersection([
   t.strict({
     id: t.number,
-    bookings: t.array(BookingRegistered)
+    bookings: t.array(BookingRegisteredSchema)
   }),
-  Vehicle
+  VehicleSchema
 ]);
 
 export type VehicleRegistered = t.TypeOf<typeof VehicleRegistered>;
 
-export const encodeToEntity: t.Encode<Vehicle, VehicleEntity> = (v) => {
+export const encodeToEntity = (v: Vehicle): VehicleEntity => {
   const ve = new VehicleEntity();
   ve.modelName = v.modelName;
   ve.plate = v.plate;
